@@ -21,12 +21,16 @@
 #' @references Vegetabile, B. G., Griffin, B. A., Coffman, D. L., Cefalu, M., Robbins, M. W., and McCaffrey, D. F. (2021). 
 #' Nonparametric estimation of population average dose-response curves using entropy balancing weights for continuous exposures. 
 #' Health Services and Outcomes Research Methodology, 21(1), 69-110.
+#' @importFrom stats dist rbinom rchisq rnorm
 #'
 #' @examples
 #' 
 #' simdat <- simulate_confounded_data(seed = 123, nobs = 1000)
 #' 
 #' str(simdat$data)
+#' 
+#' A <- simdat$data$A
+#' y <- simdat$data$Y
 #' 
 #' trt_vec <- seq(min(simdat$data$A), max(simdat$data$A), length.out=500)
 #' ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))

@@ -29,6 +29,7 @@
 #' \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
 #' \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
 #' @seealso \code{\link[independenceWeights]{print.independence_weights}} for printing of fitted energy balancing objects
+#' @importFrom osqp solve_osqp
 #' @references Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances. 
 #' Annals of Statistics 35(6) 2769-2794 \url{https://doi.org/10.1214/009053607000000505}
 #' 
@@ -59,6 +60,7 @@
 #' ## estimate naively without weights
 #' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
 #' 
+#' ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))
 #' plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, xlim = c(0,50))
 #' ## true ADRF
 #' lines(x = trt_vec, y = simdat$true_adrf(trt_vec), col = "blue", lwd=2)
@@ -170,13 +172,13 @@ independence_weights <- function(A,
   #Optimize. try up to 15 times until there isn't a weird failure of solve_osqp()
   for (na in 1:15)
   {
-    opt.out <- osqp::solve_osqp(2 * (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) + lambda * diag(n) / n ^ 2 ),
-                                q = 2 * gamma * (aa_energy_A * Q_energy_A_adj + aa_energy_X * Q_energy_X_adj),
-                                A = Amat, l = lvec, u = uvec,
-                                pars = osqp::osqpSettings(max_iter = 2e5,
-                                                          eps_abs = 1e-8,
-                                                          eps_rel = 1e-8,
-                                                          verbose = FALSE))
+    opt.out <- solve_osqp(2 * (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) + lambda * diag(n) / n ^ 2 ),
+                          q = 2 * gamma * (aa_energy_A * Q_energy_A_adj + aa_energy_X * Q_energy_X_adj),
+                          A = Amat, l = lvec, u = uvec,
+                          pars = osqp::osqpSettings(max_iter = 2e5,
+                                                    eps_abs = 1e-8,
+                                                    eps_rel = 1e-8,
+                                                    verbose = FALSE))
     
     if (!identical(opt.out$info$status, "maximum iterations reached") & !(any(opt.out$x > 1e5)))
     {

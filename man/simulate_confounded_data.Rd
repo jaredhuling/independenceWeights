@@ -44,6 +44,9 @@ simdat <- simulate_confounded_data(seed = 123, nobs = 1000)
 
 str(simdat$data)
 
+A <- simdat$data$A
+y <- simdat$data$Y
+
 trt_vec <- seq(min(simdat$data$A), max(simdat$data$A), length.out=500)
 ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))
 plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims)

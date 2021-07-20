@@ -14,7 +14,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends: 
-    locfit,
     osqp (>= 0.6.0.3)
 Imports: 
-    fields
+    fields,
+    locfit
