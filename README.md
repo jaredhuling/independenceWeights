@@ -34,7 +34,8 @@ library(independenceWeights)
 ```
 
 Simulate data with a continuous treatment that has a confounded
-relationship with a response:
+relationship with a response. Data are simulated according to the
+simulation setup of Vegetabile et al. (2021).
 
 ``` r
 simdat <- simulate_confounded_data(seed = 999, nobs = 500)
@@ -109,6 +110,16 @@ legend("bottomleft", c("True ADRF", "Unweighted Est.", "DCOW-weighted Est."),
 Huling, Jared D, Noah Greifer, and Guanhua Chen. 2021. “Independence
 Weights for Causal Inference with Continuous Exposures.” *arXiv Preprint
 arXiv:2107.07086*. <https://arxiv.org/abs/2107.07086>.
+
+</div>
+
+<div id="ref-vegetabile2021nonparametric" class="csl-entry">
+
+Vegetabile, Brian G, Beth Ann Griffin, Donna L Coffman, Matthew Cefalu,
+Michael W Robbins, and Daniel F McCaffrey. 2021. “Nonparametric
+Estimation of Population Average Dose-Response Curves Using Entropy
+Balancing Weights for Continuous Exposures.” *Health Services and
+Outcomes Research Methodology* 21 (1): 69–110.
 
 </div>
 

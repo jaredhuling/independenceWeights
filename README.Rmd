@@ -41,7 +41,7 @@ This is a basic example which shows you how to solve a common problem:
 library(independenceWeights)
 ```
 
-Simulate data with a continuous treatment that has a confounded relationship with a response:
+Simulate data with a continuous treatment that has a confounded relationship with a response. Data are simulated according to the simulation setup of @vegetabile2021nonparametric.
 
 ```{r sim}
 simdat <- simulate_confounded_data(seed = 999, nobs = 500)
