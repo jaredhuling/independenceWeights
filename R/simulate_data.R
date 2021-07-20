@@ -24,13 +24,27 @@
 #'
 #' @examples
 #' 
+#' simdat <- simulate_confounded_data(seed = 123, nobs = 1000)
 #' 
-simulated_confounded_data <- function(seed = 1,
-                                      nobs = 1000,
-                                      MX1 =  -0.5,
-                                      MX2  = 1,
-                                      MX3 =  0.3,
-                                      A_effect = TRUE)
+#' str(simdat$data)
+#' 
+#' trt_vec <- seq(min(simdat$data$A), max(simdat$data$A), length.out=500)
+#' ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))
+#' plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims)
+#' lines(x = trt_vec, y = simdat$true_adrf(trt_vec), col = "blue", lwd=2)
+#' 
+#' ## naive estimate of ADRF without weights
+#' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
+#' lines(x = trt_vec, y = adrf_hat_unwtd, col = "green", lwd=2)
+#' 
+#' 
+#' @export
+simulate_confounded_data <- function(seed = 1,
+                                     nobs = 1000,
+                                     MX1 =  -0.5,
+                                     MX2  = 1,
+                                     MX3 =  0.3,
+                                     A_effect = TRUE)
 {
   
   set.seed(seed)

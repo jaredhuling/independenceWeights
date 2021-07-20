@@ -24,7 +24,8 @@
 #' \item{D_w}{The value of the weighted dependence distance of Huling, et al. (2021) using the optimal estimated weights. This is the weighted dependence statistic without the ridge penalty on the weights.}
 #' \item{D_unweighted}{The value of the weighted dependence distance using all weights = 1 (i.e. unweighted)}
 #' \item{distcov}{The weighted distance covariance term. This term itself does not directly measure weighted dependence but is a critical component of it.  }
-#' \item{distcov_unweighted}{The unweighted distance covariance term. This is the standard distance covariance of Szekely et al (2007).}
+#' \item{distcov_unweighted}{The unweighted distance covariance term. This is the standard distance covariance of Szekely et al (2007). This term
+#' is always equal to \code{D_unweighted}.}
 #' \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
 #' \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
 #' @seealso \code{\link[independenceWeights]{print.independence_weights}} for printing of fitted energy balancing objects
@@ -36,37 +37,35 @@
 #'
 #' @examples
 #'
-#' n <- 100
-#' p <- 5
+#' simdat <- simulate_confounded_data(seed = 999, nobs = 500)
 #'
-#' set.seed(1)
+#' y <- simdat$data$Y
+#' A <- simdat$data$A
+#' X <- as.matrix(simdat$data[c("Z1", "Z2", "Z3", "Z4", "Z5")])
 #'
-#' dat <- sim_confounded_data(n.obs = n, n.vars = p, AR.cor = 0.75,
-#'                            propensity.model = "IV", y.model = "A")
+#' dcows <- independence_weights(A, X)
 #'
-#' x   <- dat$x
-#' y   <- dat$y
-#' trt <- dat$trt
-#'
-#' ebal <- energy_balance(trt, x)
-#'
-#' print(ebal)
+#' print(dcows)
 #'
 #' # distribution of response:
 #' quantile(y)
-#'
-#' # true trt effect:
-#' dat$trt.eff
-#'
-#' # naive estimate of trt effect:
-#' ipw_est(y, trt, rep(1, length(trt)))
-#'
-#' # estimated trt effect:
-#' ipw_est(y, trt, ebal$weights)
-#'
-#' # estimated trt effect with true propensity:
-#' wts_true <- 1 / (trt * dat$prob.trt + (1 - trt) * (1 - dat$prob.trt))
-#' ipw_est(y, trt, wts_true)
+#' 
+#' ## create grid
+#' trt_vec <- seq(min(simdat$data$A), 50, length.out=500)
+#' 
+#' ## estimate ADRF
+#' adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)
+#' 
+#' ## estimate naively without weights
+#' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
+#' 
+#' plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, xlim = c(0,50))
+#' ## true ADRF
+#' lines(x = trt_vec, y = simdat$true_adrf(trt_vec), col = "blue", lwd=2)
+#' ## estimated ADRF
+#' lines(x = trt_vec, y = adrf_hat, col = "red", lwd=2)
+#' ## naive estimate
+#' lines(x = trt_vec, y = adrf_hat_unwtd, col = "green", lwd=2)
 #'
 #' @export
 independence_weights <- function(A, 
@@ -171,7 +170,7 @@ independence_weights <- function(A,
   #Optimize. try up to 15 times until there isn't a weird failure of solve_osqp()
   for (na in 1:15)
   {
-    opt.out <- osqp::solve_osqp(2 * (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) + lambda * diag(n) ),
+    opt.out <- osqp::solve_osqp(2 * (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) + lambda * diag(n) / n ^ 2 ),
                                 q = 2 * gamma * (aa_energy_A * Q_energy_A_adj + aa_energy_X * Q_energy_X_adj),
                                 A = Amat, l = lvec, u = uvec,
                                 pars = osqp::osqpSettings(max_iter = 2e5,
@@ -193,7 +192,7 @@ independence_weights <- function(A,
   #QM <- QM_unpen + lambda * diag(n)
   quadpart_unpen <- drop(t(weights) %*% QM_unpen %*% weights)
   quadpart_unweighted <- sum(QM_unpen)
-  quadpart <- quadpart_unpen + sum(weights ^ 2) * lambda
+  quadpart <- quadpart_unpen + sum(weights ^ 2) * lambda / n ^ 2
   
   ## linear part of the overall objective function
   qvec <- 2 * gamma * (aa_energy_A * Q_energy_A_adj + aa_energy_X * Q_energy_X_adj)

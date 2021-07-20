@@ -13,9 +13,9 @@
 print.independence_weights <- function(x, digits = max(getOption('digits')-3, 3), ...)
 {
   
-  cat("Unweighted dependence distance: ", round(x$D_unweighted, digits),
-      "Unweighted distance covariance: ", round(x$distcov_unweighted, digits),
-      "\nOptimized weighted dependence distance:   ", round(x$D_w, digits), "\n\n")
+  cat(#"Unweighted dependence distance: ", round(x$D_unweighted, digits),
+      "Unweighted distance covariance:         ", round(x$distcov_unweighted, digits),
+      "\nOptimized weighted dependence distance: ", round(x$D_w, digits), "\n\n")
   
   cat("Weight ranges:\n")
   print(summary(x$weights, digits = digits), digits = digits)
