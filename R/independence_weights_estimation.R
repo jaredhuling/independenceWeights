@@ -20,9 +20,19 @@
 #' \item{weights}{A vector of length \code{nrow(X)} containing the estimated sample weights }
 #' \item{A}{Treatment vector}
 #' \item{opt}{The optimization object returned by \code{osqp::solve_osqp()}}
-#' \item{energy_dist_unweighted}{The energy distance of the raw data (ie with all weights = 1)}
-#' \item{energy_dist_optimized}{The weighted energy distance using the optimal energy balancing weights}
+#' \item{objective}{The value of the objective function at its optimal value. This is the weighted dependence statistic plus any ridge penalty on the weights.}
+#' \item{D_w}{The value of the weighted dependence distance of Huling, et al. (2021) using the optimal estimated weights. This is the weighted dependence statistic without the ridge penalty on the weights.}
+#' \item{D_unweighted}{The value of the weighted dependence distance using all weights = 1 (i.e. unweighted)}
+#' \item{distcov}{The weighted distance covariance term. This term itself does not directly measure weighted dependence but is a critical component of it.  }
+#' \item{distcov_unweighted}{The unweighted distance covariance term. This is the standard distance covariance of Szekely et al (2007).}
+#' \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
+#' \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
 #' @seealso \code{\link[independenceWeights]{print.independence_weights}} for printing of fitted energy balancing objects
+#' @references Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances. 
+#' Annals of Statistics 35(6) 2769-2794 \url{https://doi.org/10.1214/009053607000000505}
+#' 
+#' Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures. 
+#' arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}
 #'
 #' @examples
 #'
@@ -241,7 +251,6 @@ independence_weights <- function(A,
                   D_unweighted = D_unweighted,
                   distcov = distcov_history,         ### the weighted total distance covariance
                   distcov_unweighted = unweighted_dist_cov,
-                  energy = energy_history,           ### sum of weighted energy distances
                   energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
                   energy_X = energy_X)               ### Energy(Wtd X, X)
   
@@ -367,7 +376,7 @@ weighted_energy_stats <- function(A, X, weights,
   objective_history <- objective_history
   energy_history    <- energy_history
   
-  return(list(D_w = objective_history,     ### the actual objective function value
+  return(list(D_w = objective_history,           ### the actual objective function value
               distcov = distcov_history,         ### the weighted total distance covariance
               energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
               energy_X = energy_X))              ### Energy(Wtd X, X)
