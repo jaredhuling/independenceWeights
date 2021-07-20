@@ -84,7 +84,8 @@ adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)
 adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
 
 ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))
-plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, xlim = c(0,50),
+plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, 
+     xlim = c(0,50),
      xlab = "A", ylab = "Y")
 ## true ADRF
 lines(x = trt_vec, y = simdat$true_adrf(trt_vec), col = "blue", lwd=2)
@@ -92,6 +93,8 @@ lines(x = trt_vec, y = simdat$true_adrf(trt_vec), col = "blue", lwd=2)
 lines(x = trt_vec, y = adrf_hat, col = "red", lwd=2)
 ## naive estimate
 lines(x = trt_vec, y = adrf_hat_unwtd, col = "green", lwd=2)
+legend("bottomleft", c("True ADRF", "Unweighted Est.", "DCOW-weighted Est."),
+       col = c("blue", "green", "red"), lty = 1, lwd = 2)
 ```
 
 <img src="man/figures/README-adrf-1.png" width="100%" />
