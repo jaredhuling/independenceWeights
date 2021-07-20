@@ -291,6 +291,18 @@ independence_weights <- function(A,
 #' 
 #' Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures. 
 #' arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}
+#' @examples 
+#' 
+#' simdat <- simulate_confounded_data(seed = 999, nobs = 100)
+#' 
+#' str(simdat$data)
+#' 
+#' A <- simdat$data$A
+#' X <- as.matrix(simdat$data[c("Z1", "Z2", "Z3", "Z4", "Z5")])
+#' 
+#' wts <- runif(length(A))
+#' 
+#' weighted_energy_stats(A, X, wts)
 #'
 #' @export
 weighted_energy_stats <- function(A, X, weights,

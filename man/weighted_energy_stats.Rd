@@ -33,6 +33,20 @@ is always equal to \code{D_unweighted}.}
 \description{
 Calculates weighted energy statistics used to quantify weighted dependence
 }
+\examples{
+
+simdat <- simulate_confounded_data(seed = 999, nobs = 100)
+
+str(simdat$data)
+
+A <- simdat$data$A
+X <- as.matrix(simdat$data[c("Z1", "Z2", "Z3", "Z4", "Z5")])
+
+wts <- runif(length(A))
+
+weighted_energy_stats(A, X, wts)
+
+}
 \references{
 Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances.
 Annals of Statistics 35(6) 2769-2794 \url{https://doi.org/10.1214/009053607000000505}
