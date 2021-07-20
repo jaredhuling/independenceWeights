@@ -20,7 +20,9 @@ the dimensionality of \code{x}. Defaults to \code{TRUE}.}
 \item{gamma}{positive numerical scalar. Defaults to 1 and should not be changed.}
 }
 \value{
-a scalar value of the requested energy distance
+a list with the following components
+\item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
+\item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
 }
 \description{
 Calculates weighted energy statistics used to quantify weighted dependence

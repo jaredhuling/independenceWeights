@@ -46,6 +46,7 @@ An object of class \code{"independence_weights"} with elements:
 is always equal to \code{D_unweighted}.}
 \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
 \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
+\item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
 }
 \description{
 Constructs independence-inducing weights (distance covariance optimal weights) for

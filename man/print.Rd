@@ -2,12 +2,15 @@
 % Please edit documentation in R/print_indep_weights_object.R
 \name{print.independence_weights}
 \alias{print.independence_weights}
+\alias{print.weighted_energy_terms}
 \title{Printing results for estimated energy balancing weights}
 \usage{
 \method{print}{independence_weights}(x, digits = max(getOption("digits") - 3, 3), ...)
+
+\method{print}{weighted_energy_terms}(x, digits = max(getOption("digits") - 3, 3), ...)
 }
 \arguments{
-\item{x}{a fitted object from \code{\link[independenceWeights]{independence_weights}}}
+\item{x}{a fitted object from \code{\link[independenceWeights]{weighted_energy_stats}}}
 
 \item{digits}{minimal number of significant digits to print.}
 
@@ -15,7 +18,11 @@
 }
 \description{
 Prints results for energy balancing weights
+
+Prints weighted energy statistics for given weights
 }
 \seealso{
 \code{\link[independenceWeights]{independence_weights}} for function which produces energy balancing weights
+
+\code{\link[independenceWeights]{weighted_energy_stats}} for function which produces energy balancing weights
 }

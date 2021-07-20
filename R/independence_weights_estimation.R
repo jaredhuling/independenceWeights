@@ -28,6 +28,7 @@
 #' is always equal to \code{D_unweighted}.}
 #' \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
 #' \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
+#' \item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
 #' @seealso \code{\link[independenceWeights]{print.independence_weights}} for printing of fitted energy balancing objects
 #' @importFrom osqp solve_osqp
 #' @references Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances. 
@@ -244,6 +245,8 @@ independence_weights <- function(A,
   objective_history <- objective_history
   energy_history    <- energy_history
   
+  ess <- (sum(weights)) ^ 2 / sum(weights ^ 2)
+  
   ret_obj <- list(weights = weights, 
                   A = A,
                   opt = opt.out, 
@@ -253,7 +256,8 @@ independence_weights <- function(A,
                   distcov = distcov_history,         ### the weighted total distance covariance
                   distcov_unweighted = unweighted_dist_cov,
                   energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
-                  energy_X = energy_X)               ### Energy(Wtd X, X)
+                  energy_X = energy_X,               ### Energy(Wtd X, X)
+                  ess = ess)        # effective sample size
   
   class(ret_obj) <- c("independence_weights")
   
@@ -273,7 +277,9 @@ independence_weights <- function(A,
 #' @param dimension_adj logical scalar. Whether or not to add adjustment to energy distance terms that account for 
 #' the dimensionality of \code{x}. Defaults to \code{TRUE}.
 #' @param gamma positive numerical scalar. Defaults to 1 and should not be changed. 
-#' @return a scalar value of the requested energy distance
+#' @return a list with the following components
+#' \item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
+#' \item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
 #'
 #' @export
 weighted_energy_stats <- function(A, X, weights,
@@ -377,9 +383,17 @@ weighted_energy_stats <- function(A, X, weights,
   objective_history <- objective_history
   energy_history    <- energy_history
   
-  return(list(D_w = objective_history,           ### the actual objective function value
-              distcov = distcov_history,         ### the weighted total distance covariance
-              energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
-              energy_X = energy_X))              ### Energy(Wtd X, X)
+  ess <- (sum(weights)) ^ 2 / sum(weights ^ 2)
+  
+  retobj <- list(D_w = objective_history,           ### the actual objective function value
+                 distcov_unweighted = sum(P),
+                 distcov = distcov_history,         ### the weighted total distance covariance
+                 energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
+                 energy_X = energy_X,               ### Energy(Wtd X, X)
+                 ess = ess)                         ### effective sample size
+  
+  class(retobj) <- c("weighted_energy_terms", "list")
+  
+  return(retobj)
 }
 
