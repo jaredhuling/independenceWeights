@@ -1,12 +1,13 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # independenceWeights
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of independenceWeights is to …
+The `independenceWeights` package constructs weights designed to
+minimize the weighted statistical dependence between a continuous
+exposure variable and a vector of confounder variables and implements
+the methods of Huling, Greifer, and Chen (2021) for doing so.
 
 ## Installation
 
@@ -52,7 +53,7 @@ dcows <- independence_weights(A, X)
 dcows
 #> Unweighted distance covariance:           0.3963 
 #> Optimized weighted dependence distance:   0.0246 
-#> Effective sample size:                  264.01 
+#> Effective sample size:                  264.0099 
 #> 
 #> Weight ranges:
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -67,7 +68,7 @@ weighted_energy_stats(A, X, dcows$weights)
 #> Weighted dependence distance:              0.0246 
 #> Weighted energy distance(A, weighted A):   0.0014 
 #> Weighted energy distance(X, weighted X):   0.0025 
-#> Effective sample size:                   264.01
+#> Effective sample size:                   264.0099
 ```
 
 Now use the weights to estimate the causal average dose response
@@ -98,3 +99,17 @@ legend("bottomleft", c("True ADRF", "Unweighted Est.", "DCOW-weighted Est."),
 ```
 
 <img src="man/figures/README-adrf-1.png" width="100%" />
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-huling2021independence" class="csl-entry">
+
+Huling, Jared D, Noah Greifer, and Guanhua Chen. 2021. “Independence
+Weights for Causal Inference with Continuous Exposures.” *arXiv Preprint
+arXiv:2107.07086*. <https://arxiv.org/abs/2107.07086>.
+
+</div>
+
+</div>

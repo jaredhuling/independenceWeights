@@ -1,8 +1,7 @@
 ---
 output: github_document
+bibliography: "references.bib"
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -18,7 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of independenceWeights is to ...
+The `independenceWeights` package constructs weights designed to minimize the weighted statistical dependence between a continuous exposure variable and a vector of confounder variables and implements the methods of @huling2021independence for doing so. 
 
 ## Installation
 
@@ -92,3 +91,5 @@ lines(x = trt_vec, y = adrf_hat_unwtd, col = "green", lwd=2)
 legend("bottomleft", c("True ADRF", "Unweighted Est.", "DCOW-weighted Est."),
        col = c("blue", "green", "red"), lty = 1, lwd = 2)
 ```
+
+## References

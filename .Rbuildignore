@@ -1,3 +1,7 @@
 ^independenceWeights\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^references\.bib$
+^docs$
+^_pkgdown\.yml$
+^pkgdown$
