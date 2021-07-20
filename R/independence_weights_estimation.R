@@ -1,10 +1,69 @@
 
 
+#' Construction of distance covariance optimal weights weights
+#'
+#' @description Constructs independence-inducing weights (distance covariance optimal weights) for 
+#' estimation of causal quantities for continuous-valued treatments
+#'
+#' @param A vector indicating the value of the treatment or exposure variable. Should be a numeric vector.
+#' @param X matrix of covariates with number of rows equal to the length of \code{A} and each column is a
+#' \strong{pre-treatment} covariate to be balanced between treatment groups.
+#' @param lambda tuning parameter for the penalty on the sum of squares of the weights
+#' @param decorrelate_moments logical scalar. Whether or not to add constraints that result in exact decorrelation of 
+#' weighted first order moments of \code{X} and \code{A}. Defaults to \code{FALSE}.
+#' @param preserve_means logical scalar. Whether or not to add constraints that result in exact preservation of 
+#' weighted first order moments of \code{X} and \code{A}. Defaults to \code{FALSE}.
+#' @param dimension_adj logical scalar. Whether or not to add adjustment to energy distance terms that account for 
+#' the dimensionality of \code{X}. Defaults to \code{TRUE}.
+#' @param gamma positive numerical scalar. Defaults to 1 and should not be changed. 
+#' @return An object of class \code{"independence_weights"} with elements:
+#' \item{weights}{A vector of length \code{nrow(X)} containing the estimated sample weights }
+#' \item{A}{Treatment vector}
+#' \item{opt}{The optimization object returned by \code{osqp::solve_osqp()}}
+#' \item{energy_dist_unweighted}{The energy distance of the raw data (ie with all weights = 1)}
+#' \item{energy_dist_optimized}{The weighted energy distance using the optimal energy balancing weights}
+#' @seealso \code{\link[independenceWeights]{print.independence_weights}} for printing of fitted energy balancing objects
+#'
+#' @examples
+#'
+#' n <- 100
+#' p <- 5
+#'
+#' set.seed(1)
+#'
+#' dat <- sim_confounded_data(n.obs = n, n.vars = p, AR.cor = 0.75,
+#'                            propensity.model = "IV", y.model = "A")
+#'
+#' x   <- dat$x
+#' y   <- dat$y
+#' trt <- dat$trt
+#'
+#' ebal <- energy_balance(trt, x)
+#'
+#' print(ebal)
+#'
+#' # distribution of response:
+#' quantile(y)
+#'
+#' # true trt effect:
+#' dat$trt.eff
+#'
+#' # naive estimate of trt effect:
+#' ipw_est(y, trt, rep(1, length(trt)))
+#'
+#' # estimated trt effect:
+#' ipw_est(y, trt, ebal$weights)
+#'
+#' # estimated trt effect with true propensity:
+#' wts_true <- 1 / (trt * dat$prob.trt + (1 - trt) * (1 - dat$prob.trt))
+#' ipw_est(y, trt, wts_true)
+#'
+#' @export
 independence_weights <- function(A, 
                                  X, 
                                  lambda = 0, 
-                                 preserve_means = FALSE,
                                  decorrelate_moments = FALSE,
+                                 preserve_means = FALSE,
                                  dimension_adj = TRUE, 
                                  gamma = 1)
 {
@@ -13,6 +72,7 @@ independence_weights <- function(A,
   
   n <- NROW(A)
   p <- NCOL(X)
+  stopifnot(gamma >= 0)
   
   Xdist  <- as.matrix(dist(X))
   Adist  <- as.matrix(dist(A))
@@ -119,16 +179,25 @@ independence_weights <- function(A,
   weights[weights < 0] <- 0 #due to numerical imprecision
   
   ## quadratic part of the overall objective function
-  QM <- (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) + lambda * diag(n) )
-  quadpart <- drop(t(weights) %*% QM %*% weights)
+  QM_unpen <- (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) )
+  #QM <- QM_unpen + lambda * diag(n)
+  quadpart_unpen <- drop(t(weights) %*% QM_unpen %*% weights)
+  quadpart_unweighted <- sum(QM_unpen)
+  quadpart <- quadpart_unpen + sum(weights ^ 2) * lambda
   
   ## linear part of the overall objective function
   qvec <- 2 * gamma * (aa_energy_A * Q_energy_A_adj + aa_energy_X * Q_energy_X_adj)
   linpart  <- drop(weights %*% qvec)
+  linpart_unweighted  <- sum(qvec)
   
   ## objective function
   objective_history <- quadpart + linpart + gamma*(-1*mean_Xdist * Q_energy_X_adj - mean_Adist * Q_energy_A_adj)
   
+  
+  ## D(w)
+  D_w <- quadpart_unpen + linpart + gamma*(-1*mean_Xdist * Q_energy_X_adj - mean_Adist * Q_energy_A_adj)
+  
+  D_unweighted <- quadpart_unweighted + linpart_unweighted + gamma*(-1*mean_Xdist * Q_energy_X_adj - mean_Adist * Q_energy_A_adj)
   
   
   qvec_full <- 2 * (aa_energy_A * Q_energy_A_adj + aa_energy_X * Q_energy_X_adj)
@@ -143,6 +212,7 @@ independence_weights <- function(A,
   
   distcov_history <- drop(t(weights) %*% P %*% weights)
   
+  unweighted_dist_cov <- sum(P)
   
   
   linpart_energy   <- drop(weights %*% qvec_full)
@@ -163,32 +233,47 @@ independence_weights <- function(A,
   objective_history <- objective_history
   energy_history    <- energy_history
   
-  return(list(weights = weights, 
-              opt = opt.out, 
-              objective = objective_history,     ### the actual objective function value
-              distcov = distcov_history,         ### the weighted total distance covariance
-              energy = energy_history,           ### sum of weighted energy distances
-              energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
-              energy_X = energy_X))              ### Energy(Wtd X, X)
+  ret_obj <- list(weights = weights, 
+                  A = A,
+                  opt = opt.out, 
+                  objective = objective_history,     ### the actual objective function value
+                  D_w = D_w,
+                  D_unweighted = D_unweighted,
+                  distcov = distcov_history,         ### the weighted total distance covariance
+                  distcov_unweighted = unweighted_dist_cov,
+                  energy = energy_history,           ### sum of weighted energy distances
+                  energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
+                  energy_X = energy_X)               ### Energy(Wtd X, X)
+  
+  class(ret_obj) <- c("independence_weights")
+  
+  return(ret_obj)              
 }
 
 
 
+#' Calculation of weighted energy statistics for weighted dependence
+#'
+#' @description Calculates weighted energy statistics used to quantify weighted dependence
+#'
+#' @param A treatment vector indicating values of the treatment/exposure variable.
+#' @param X matrix of covariates with number of rows equal to the length of \code{weights} and each column is a
+#' covariate
+#' @param weights a vector of sample weights
+#' @param dimension_adj logical scalar. Whether or not to add adjustment to energy distance terms that account for 
+#' the dimensionality of \code{x}. Defaults to \code{TRUE}.
+#' @param gamma positive numerical scalar. Defaults to 1 and should not be changed. 
+#' @return a scalar value of the requested energy distance
+#'
+#' @export
 weighted_energy_stats <- function(A, X, weights,
-                                  gamma = 1, lambda = 0,
-                                  kernel = c("distance", "gaussian"),
-                                  dimension_adj = FALSE)
+                                  dimension_adj = FALSE,
+                                  gamma = 1)
 {
-  kernel <- match.arg(kernel)
+  
   Xdist  <- as.matrix(dist(X))
   Adist  <- as.matrix(dist(A))
   
-  
-  if (kernel == "gaussian")
-  {
-    Xdist <- -exp(-0.5*Xdist^2/median(Xdist^2))
-    Adist <- -exp(-0.5*Adist^2/median(Adist^2))
-  }
   
   ## normalize weights
   weights <- weights / mean(weights)
@@ -241,7 +326,7 @@ weighted_energy_stats <- function(A, X, weights,
   
   
   ## quadratic part of the overall objective function
-  QM <- (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) + lambda * diag(n) )
+  QM <- (P + gamma * (Q_energy_A * Q_energy_A_adj + Q_energy_X * Q_energy_X_adj) )
   quadpart <- drop(t(weights) %*% QM %*% weights)
   
   ## linear part of the overall objective function
@@ -282,7 +367,7 @@ weighted_energy_stats <- function(A, X, weights,
   objective_history <- objective_history
   energy_history    <- energy_history
   
-  return(list(objective = objective_history,     ### the actual objective function value
+  return(list(D_w = objective_history,     ### the actual objective function value
               distcov = distcov_history,         ### the weighted total distance covariance
               energy_A = energy_A,               ### Energy(Wtd Treatment, Treatment)
               energy_X = energy_X))              ### Energy(Wtd X, X)

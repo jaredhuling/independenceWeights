@@ -1,6 +1,6 @@
 Package: independenceWeights
 Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Jared",
            family = "Huling",
@@ -8,7 +8,7 @@ Authors@R:
            email = "jaredhuling@gmail.com",
            comment = c(ORCID = "0000-0003-0670-4845"))
 Description: What the package does (one paragraph).
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
