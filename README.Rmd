@@ -38,9 +38,8 @@ devtools::install_github("jaredhuling/independenceWeights")
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r load, message=FALSE, warning=FALSE}
 library(independenceWeights)
-## basic example code
 ```
 
 Simulate data with a continuous treatment that has a confounded relationship with a response:
@@ -58,7 +57,13 @@ Now estimate weights to adjust for confounders using the distance covariance opt
 ```{r dcows}
 dcows <- independence_weights(A, X)
 
-print(dcows)
+dcows
+```
+
+Alternatively, information about any set of weights can be printed via
+
+```{r wtstats}
+weighted_energy_stats(A, X, dcows$weights)
 ```
 
 

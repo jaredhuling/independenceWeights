@@ -39,11 +39,11 @@ An object of class \code{"independence_weights"} with elements:
 \item{A}{Treatment vector}
 \item{opt}{The optimization object returned by \code{osqp::solve_osqp()}}
 \item{objective}{The value of the objective function at its optimal value. This is the weighted dependence statistic plus any ridge penalty on the weights.}
-\item{D_w}{The value of the weighted dependence distance of Huling, et al. (2021) using the optimal estimated weights. This is the weighted dependence statistic without the ridge penalty on the weights.}
 \item{D_unweighted}{The value of the weighted dependence distance using all weights = 1 (i.e. unweighted)}
-\item{distcov}{The weighted distance covariance term. This term itself does not directly measure weighted dependence but is a critical component of it.  }
+\item{D_w}{The value of the weighted dependence distance of Huling, et al. (2021) using the optimal estimated weights. This is the weighted dependence statistic without the ridge penalty on the weights.}
 \item{distcov_unweighted}{The unweighted distance covariance term. This is the standard distance covariance of Szekely et al (2007). This term
 is always equal to \code{D_unweighted}.}
+\item{distcov_weighted}{The weighted distance covariance term. This term itself does not directly measure weighted dependence but is a critical component of it.  }
 \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
 \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
 \item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}

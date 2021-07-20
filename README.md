@@ -30,8 +30,6 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(independenceWeights)
-#> Loading required package: osqp
-## basic example code
 ```
 
 Simulate data with a continuous treatment that has a confounded
@@ -51,13 +49,25 @@ between *A* and *X*:
 ``` r
 dcows <- independence_weights(A, X)
 
-print(dcows)
-#> Unweighted distance covariance:          0.3963 
-#> Optimized weighted dependence distance:  0.0246 
+dcows
+#> Unweighted distance covariance:           0.3963 
+#> Optimized weighted dependence distance:   0.0246 
+#> Effective sample size:                  264.0099 
 #> 
 #> Weight ranges:
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #>  0.0000  0.2767  0.8215  1.0000  1.4120  5.7360
+```
+
+Alternatively, information about any set of weights can be printed via
+
+``` r
+weighted_energy_stats(A, X, dcows$weights)
+#> Unweighted distance covariance:            0.3963 
+#> Weighted dependence distance:              0.0246 
+#> Weighted energy distance(A, weighted A):   0.0014 
+#> Weighted energy distance(X, weighted X):   0.0025 
+#> Effective sample size:                   264.0099
 ```
 
 Now use the weights to estimate the causal average dose response
