@@ -52,7 +52,7 @@ dcows <- independence_weights(A, X)
 dcows
 #> Unweighted distance covariance:           0.3963 
 #> Optimized weighted dependence distance:   0.0246 
-#> Effective sample size:                  264.0099 
+#> Effective sample size:                  264.01 
 #> 
 #> Weight ranges:
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -67,7 +67,7 @@ weighted_energy_stats(A, X, dcows$weights)
 #> Weighted dependence distance:              0.0246 
 #> Weighted energy distance(A, weighted A):   0.0014 
 #> Weighted energy distance(X, weighted X):   0.0025 
-#> Effective sample size:                   264.0099
+#> Effective sample size:                   264.01
 ```
 
 Now use the weights to estimate the causal average dose response
@@ -83,7 +83,7 @@ adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)
 ## estimate naively without weights
 adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
 
-ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))
+ylims <- c(-4.75, 4.75)
 plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, 
      xlim = c(0,50),
      xlab = "A", ylab = "Y")
