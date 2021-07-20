@@ -40,7 +40,7 @@ Simulates confounded data with continuous treatment based on Vegetabile et al's 
 }
 \examples{
 
-simdat <- simulate_confounded_data(seed = 123, nobs = 1000)
+simdat <- simulate_confounded_data(seed = 999, nobs = 500)
 
 str(simdat$data)
 
