@@ -108,7 +108,9 @@ simulate_confounded_data <- function(seed = 1,
   
   datz <- data.frame('Y' = Y, 'A' = A, 'Z1' = Z1, 'Z2' = Z2, 'Z3' = Z3, 'Z4' = Z4, 'Z5' = Z5, 'truth' = truth)
   
-  list(data = datz, true_adrf = Afunc)
+  datx <- data.frame(X1 = X1, X2 = X2, X3 = X3, X4 = X4, X5 = X5)
+  
+  list(data = datz, true_adrf = Afunc, original_covariates = datx)
 }
 
 
