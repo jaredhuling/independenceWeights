@@ -83,9 +83,8 @@ simulate_confounded_data <- function(seed = 1,
     Cnum <- ((MX1+3)^2+1) + 2*((MX2-25)^2+1)
     Y <- - 0.15 * A^2 + A * (X1^2 + X2^2) - 15 + (X1+3)^2 + 2 * (X2-25)^2 + X3 - Cnum + rnorm(nobs, sd = 1)
     Y <- Y / 50
-    truth <- - 0.15 * A^2 + A * (2 + MX1^2 + MX2^2) - 15 #+ 5 * (1 + MX1^2 + 6 * MX1 + 9) + 15 * (1 + MX2^2 + 6 * MX2 + 9) + MX3
+    truth <- - 0.15 * A^2 + A * (2 + MX1^2 + MX2^2) - 15 
     truth <- truth / 50
-    # truth <- - (A_test - 10) * (A_test - 10) / 5 + 5* A_test * (2 + MX1^2 + MX2^2) / 1 - 15 * (MX1 - MX2) + MX3 + (1 + MX2^2 - 40 * MX2 + 400)
   } else 
   {
     Y <- X1 + X1^2 + X2 + X2^2 + X1 * X2 + X5 + rnorm(nobs, sd = 1)
