@@ -16,16 +16,24 @@ weighted_kernel_est <- function(A, y, weights, Aseq)
 {
   
   stopifnot(length(A) == length(y))
+  if (missing(weights)) weights <- rep(1, length(A))
   stopifnot(length(A) == length(weights))
   
+  if (missing(Aseq)) {
+    min_A <- min(A)
+    max_A <- max(A)
+    range_A <- max_A - min_A
+    Aseq <- seq(min_A - .05*range_A, max_A + .05*range_A, length.out = 500)
+  }
+  
   ## if the weights are degenerate, do nothing!
-  if (all(weights == 0) | (mean(weights == 0) > 0.95))
+  if (all(weights == 0) || (mean(weights == 0) > 0.95))
   {
-    estimated <- rep(NA, NROW(Aseq))
+    estimated <- rep(NA_real_, length(Aseq))
     locpoly_fit <- NULL
   } else {
     dfx <- data.frame(Y = y, TRT = A)
-    locpoly_fit <- locfit::locfit(y ~ locfit::lp(A), weights = weights, data = dfx)
+    locpoly_fit <- locfit::locfit(Y ~ locfit::lp(TRT), weights = weights, data = dfx)
     
     estimated <- unname(predict(locpoly_fit, 
                                 newdata = Aseq,
