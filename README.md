@@ -27,7 +27,9 @@ devtools::install_github("jaredhuling/independenceWeights")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows how to estimate and utilize the
+distance covariance optimal weights (DCOWs) of Huling, Greifer, and Chen
+(2021):
 
 ``` r
 library(independenceWeights)
@@ -80,10 +82,10 @@ function (ADRF)
 trt_vec <- seq(min(simdat$data$A), 50, length.out=500)
 
 ## estimate ADRF
-adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)
+adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)$est
 
 ## estimate naively without weights
-adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
+adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)$est
 
 ylims <- c(-4.75, 4.75)
 plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, 
