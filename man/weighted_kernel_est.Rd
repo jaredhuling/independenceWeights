@@ -16,7 +16,9 @@ weighted_kernel_est(A, y, weights, Aseq)
 \item{Aseq}{a vector of new points for which to obtain estimates of E(Y(a))}
 }
 \value{
-a vector of estimates of a causal ADRF at the values of the treatment specified by \code{Aseq}
+A list with the following elements
+\item{fit}{A fitted model object from the \code{\link[locfit]{lp}} function}
+\item{estimated}{a vector of estimates of a causal ADRF at the values of the treatment specified by \code{Aseq}}
 }
 \description{
 Calculates weighted nonparametric regression estimate of the causal average dose response function

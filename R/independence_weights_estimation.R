@@ -56,10 +56,10 @@
 #' trt_vec <- seq(min(simdat$data$A), 50, length.out=500)
 #' 
 #' ## estimate ADRF
-#' adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)
+#' adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)$est
 #' 
 #' ## estimate naively without weights
-#' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
+#' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)$est
 #' 
 #' ylims <- range(c(simdat$data$Y, simdat$true_adrf(trt_vec)))
 #' plot(x = simdat$data$A, y = simdat$data$Y, ylim = ylims, xlim = c(0,50))

@@ -38,7 +38,7 @@
 #' lines(x = trt_vec, y = simdat$true_adrf(trt_vec), col = "blue", lwd=2)
 #' 
 #' ## naive estimate of ADRF without weights
-#' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)
+#' adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)$est
 #' lines(x = trt_vec, y = adrf_hat_unwtd, col = "green", lwd=2)
 #' 
 #' 

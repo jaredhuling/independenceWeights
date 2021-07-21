@@ -8,7 +8,9 @@
 #' @param y vector of responses
 #' @param weights a vector of sample weights of length equal to the length of \code{y}
 #' @param Aseq a vector of new points for which to obtain estimates of E(Y(a))
-#' @return a vector of estimates of a causal ADRF at the values of the treatment specified by \code{Aseq}
+#' @return A list with the following elements
+#' \item{fit}{A fitted model object from the \code{\link[locfit]{lp}} function}
+#' \item{estimated}{a vector of estimates of a causal ADRF at the values of the treatment specified by \code{Aseq}}
 #' @importFrom stats predict
 #'
 #' @export
@@ -40,6 +42,6 @@ weighted_kernel_est <- function(A, y, weights, Aseq)
                                 where = "fitp"))
   }
   
-  estimated
+  list(fit = locpoly_fit, estimated = estimated)
 }
   
