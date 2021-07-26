@@ -1,5 +1,5 @@
 Package: independenceWeights
-Title: What the Package Does (One Line, Title Case)
+Title: Estimates weights for confounding control for continuous-valued exposures
 Version: 0.0.1
 Authors@R: 
     c(person(given = "Jared",
