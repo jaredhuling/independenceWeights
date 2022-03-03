@@ -167,7 +167,7 @@ independence_weights <- function(A,
     
   } else
   {
-    Q_energy_A_adj <- Q_energy_X_adj <- 1
+    Q_energy_A_adj <- Q_energy_X_adj <- 1/2
   }
   
   #Optimize. try up to 15 times until there isn't a weird failure of solve_osqp()
@@ -359,7 +359,7 @@ weighted_energy_stats <- function(A, X, weights,
     
   } else
   {
-    Q_energy_A_adj <- Q_energy_X_adj <- 1
+    Q_energy_A_adj <- Q_energy_X_adj <- 1/2
   }
   
   
