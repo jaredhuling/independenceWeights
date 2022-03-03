@@ -4,7 +4,7 @@
 \alias{weighted_energy_stats}
 \title{Calculation of weighted energy statistics for weighted dependence}
 \usage{
-weighted_energy_stats(A, X, weights, dimension_adj = TRUE, gamma = 1)
+weighted_energy_stats(A, X, weights, dimension_adj = TRUE)
 }
 \arguments{
 \item{A}{treatment vector indicating values of the treatment/exposure variable.}
@@ -16,8 +16,6 @@ covariate}
 
 \item{dimension_adj}{logical scalar. Whether or not to add adjustment to energy distance terms that account for
 the dimensionality of \code{x}. Defaults to \code{TRUE}.}
-
-\item{gamma}{positive numerical scalar. Defaults to 1 and should not be changed.}
 }
 \value{
 a list with the following components

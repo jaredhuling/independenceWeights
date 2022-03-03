@@ -10,8 +10,7 @@ independence_weights(
   lambda = 0,
   decorrelate_moments = FALSE,
   preserve_means = FALSE,
-  dimension_adj = TRUE,
-  gamma = 1
+  dimension_adj = TRUE
 )
 }
 \arguments{
@@ -30,8 +29,6 @@ weighted first order moments of \code{X} and \code{A}. Defaults to \code{FALSE}.
 
 \item{dimension_adj}{logical scalar. Whether or not to add adjustment to energy distance terms that account for
 the dimensionality of \code{X}. Defaults to \code{TRUE}.}
-
-\item{gamma}{positive numerical scalar. Defaults to 1 and should not be changed.}
 }
 \value{
 An object of class \code{"independence_weights"} with elements:

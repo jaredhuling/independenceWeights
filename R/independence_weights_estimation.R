@@ -15,7 +15,6 @@
 #' weighted first order moments of \code{X} and \code{A}. Defaults to \code{FALSE}.
 #' @param dimension_adj logical scalar. Whether or not to add adjustment to energy distance terms that account for 
 #' the dimensionality of \code{X}. Defaults to \code{TRUE}.
-#' @param gamma positive numerical scalar. Defaults to 1 and should not be changed. 
 #' @return An object of class \code{"independence_weights"} with elements:
 #' \item{weights}{A vector of length \code{nrow(X)} containing the estimated sample weights }
 #' \item{A}{Treatment vector}
@@ -76,14 +75,15 @@ independence_weights <- function(A,
                                  lambda = 0, 
                                  decorrelate_moments = FALSE,
                                  preserve_means = FALSE,
-                                 dimension_adj = TRUE, 
-                                 gamma = 1)
+                                 dimension_adj = TRUE)
 {
   
   weights <- rep(1, NROW(A))
   
   n <- NROW(A)
   p <- NCOL(X)
+  gamma <- 1
+  
   stopifnot(gamma >= 0)
   
   Xdist  <- as.matrix(dist(X))
@@ -276,7 +276,6 @@ independence_weights <- function(A,
 #' @param weights a vector of sample weights
 #' @param dimension_adj logical scalar. Whether or not to add adjustment to energy distance terms that account for 
 #' the dimensionality of \code{x}. Defaults to \code{TRUE}.
-#' @param gamma positive numerical scalar. Defaults to 1 and should not be changed. 
 #' @return a list with the following components
 #' \item{D_w}{The value of the weighted dependence distance of Huling, et al. (2021) using the optimal estimated weights. 
 #' This is the weighted dependence statistic without the ridge penalty on the weights.}
@@ -306,13 +305,13 @@ independence_weights <- function(A,
 #'
 #' @export
 weighted_energy_stats <- function(A, X, weights,
-                                  dimension_adj = TRUE,
-                                  gamma = 1)
+                                  dimension_adj = TRUE)
 {
   
   Xdist  <- as.matrix(dist(X))
   Adist  <- as.matrix(dist(A))
   
+  gamma <- 1
   
   ## normalize weights
   weights <- weights / mean(weights)
