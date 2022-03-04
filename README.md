@@ -11,14 +11,12 @@ the methods of Huling, Greifer, and Chen (2021) for doing so.
 
 ## Installation
 
-You can install the released version of independenceWeights from
-[CRAN](https://CRAN.R-project.org) with:
+<!-- You can install the released version of independenceWeights from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- ``` r -->
+<!-- install.packages("independenceWeights") -->
+<!-- ``` -->
 
-``` r
-install.packages("independenceWeights")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+Install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
