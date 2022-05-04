@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The `independenceWeights` package constructs weights designed to minimize the weighted statistical dependence between a continuous exposure variable and a vector of confounder variables and implements the methods of @huling2021independence for doing so. 
+The `independenceWeights` package constructs weights designed to minimize the weighted statistical dependence between a continuous exposure variable and a vector of confounder variables and implements the methods of @huling2021independence for doing so. In estimating a causal dose-response function, confounding bias is a function of the dependence between confounders and the exposure/treatment, so weights that minimize the dependence aim to mitigate confounding bias directly.
 
 ## Installation
 
@@ -59,12 +59,46 @@ dcows <- independence_weights(A, X)
 dcows
 ```
 
-Alternatively, information about any set of weights can be printed via
+Alternatively, information about any set of weights can be printed via `weighted_energy_stats()`.
+The unweighted distance covariance is a measure of the unadjusted dependence between confounders
+and treatment. The weighted dependence distance is a measure of this dependence *after* weighting.
+The weighted energy distance between A and weighted A measures how well the marginal distribution
+of A is preserved after weighting. Similarly for X. The effective sample size estimates the effective
+sample size after weighting.
 
 ```{r wtstats}
 weighted_energy_stats(A, X, dcows$weights)
 ```
 
+We can assess traditional measures of balance such as marginal weighted correlations with `cobalt`:
+```{r message=FALSE,warning=FALSE}
+library(cobalt)
+```
+
+Even though the DCOWs aim to mitigate joint dependence between X and A, they result in very small
+marginal weighted correlations between them as well. (changing `poly` to 10 below would reveal that
+even up to 10th degree polynomials of covariates as well-decorrelated):
+```{r}
+bal.tab(A ~ Z1 + Z2 + Z3 + Z4 + Z5, data = data.frame(A = A, X),
+        weights = list(DCOW = dcows$weights),
+        un = TRUE, int = TRUE, poly = 1, stats = "cor")
+```
+
+We can also minimize the weighted dependence subject to the constraint that
+marginal moments of X and A are decorrelated:
+```{r dcowsdecor}
+dcows_decor <- independence_weights(A, X,
+                                    decorrelate_moments = TRUE)
+
+dcows_decor
+```
+
+```{r}
+bal.tab(A ~ Z1 + Z2 + Z3 + Z4 + Z5, data = data.frame(A = A, X),
+        weights = list(DCOW = dcows$weights,
+                       DCOW_decor = dcows_decor$weights),
+        un = TRUE, int = TRUE, stats = "cor")
+```
 
 Now use the weights to estimate the causal average dose response function (ADRF)
 

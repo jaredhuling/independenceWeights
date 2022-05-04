@@ -21,3 +21,5 @@ Depends:
 Imports: 
     fields,
     locfit
+Suggests:
+    cobalt
