@@ -31,7 +31,7 @@
 #' @seealso \code{\link[independenceWeights]{print.independence_weights}} for printing of fitted energy balancing objects
 #' @importFrom osqp solve_osqp
 #' @references Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances. 
-#' Annals of Statistics 35(6) 2769-2794 \url{https://doi.org/10.1214/009053607000000505}
+#' Annals of Statistics 35(6) 2769-2794 \doi{10.1214/009053607000000505}
 #' 
 #' Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures. 
 #' arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}
@@ -286,7 +286,7 @@ independence_weights <- function(A,
 #' \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
 #' \item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
 #' @references Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances. 
-#' Annals of Statistics 35(6) 2769-2794 \url{https://doi.org/10.1214/009053607000000505}
+#' Annals of Statistics 35(6) 2769-2794 \doi{10.1214/009053607000000505}
 #' 
 #' Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures. 
 #' arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}

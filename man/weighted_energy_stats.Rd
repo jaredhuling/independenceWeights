@@ -47,7 +47,7 @@ weighted_energy_stats(A, X, wts)
 }
 \references{
 Szekely, G. J., Rizzo, M. L., & Bakirov, N. K. (2007). Measuring and testing dependence by correlation of distances.
-Annals of Statistics 35(6) 2769-2794 \url{https://doi.org/10.1214/009053607000000505}
+Annals of Statistics 35(6) 2769-2794 \doi{10.1214/009053607000000505}
 
 Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures.
 arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}
