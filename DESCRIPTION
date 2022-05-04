@@ -19,7 +19,6 @@ RoxygenNote: 7.1.1
 Depends: 
     osqp (>= 0.6.0.3)
 Imports: 
-    fields,
     locfit
 Suggests:
     cobalt
