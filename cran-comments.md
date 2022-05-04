@@ -11,10 +11,10 @@
 ## R CMD check results
 
 
-  ── R CMD check results ────────────────────────────────────── fastglm 0.0.1 ────
-Duration: 1m 37.7s
+── R CMD check results ────────────────────────── independenceWeights 0.0.1 ────
+Duration: 33.8s
 
-0 errors | 0 warnings | 0 notes
+0 errors ✓ | 0 warnings ✓ | 0 notes ✓
 
 R CMD check succeeded
 
