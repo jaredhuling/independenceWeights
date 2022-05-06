@@ -16,6 +16,11 @@
 
 \item{...}{further arguments passed to or from \code{\link[base]{print.default}}.}
 }
+\value{
+Nothing returned
+
+Nothing returned
+}
 \description{
 Prints results for energy balancing weights
 

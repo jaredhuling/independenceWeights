@@ -9,6 +9,7 @@
 #' @rdname print
 #' @seealso \code{\link[independenceWeights]{independence_weights}} for function which produces energy balancing weights
 #' @importFrom stats quantile
+#' @return Nothing returned
 #' @export
 print.independence_weights <- function(x, digits = max(getOption('digits')-3, 3), ...)
 {
@@ -35,6 +36,7 @@ print.independence_weights <- function(x, digits = max(getOption('digits')-3, 3)
 #' @rdname print
 #' @seealso \code{\link[independenceWeights]{weighted_energy_stats}} for function which produces energy balancing weights
 #' @importFrom stats quantile
+#' @return Nothing returned
 #' @export
 print.weighted_energy_terms <- function(x, digits = max(getOption('digits')-3, 3), ...)
 {

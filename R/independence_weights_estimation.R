@@ -35,6 +35,16 @@
 #' 
 #' Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures. 
 #' arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}
+#' @return An object of class \code{"independence_weights"}.
+#' \item{weights}{the estimated weights, the distance covariance optimal weights (DCOWs)}
+#' \item{A}{the treatment vector}
+#' \item{opt}{the object returned by whatever optimization routine was used}
+#' \item{objective}{the value of the optimized objective function}
+#' \item{distcov_unweighted}{the unweighted distance covariance between treatment and covariates}
+#' \item{distcov_weighted}{the weighted distance covariance between treatment and covariates}
+#' \item{energy_A}{the (energy) distance between the treatment distribution and the weighted treatment distribution. Smaller values mean the marginal distribution of the treatment is preserved after weighting}
+#' \item{energy_x}{the (energy) distance between the covariate distribution and the weighted covariate distribution. Smaller values mean the marginal distribution of the covariates is preserved after weighting}
+#' \item{ess}{the expected sample size after weighting. Kish's approximation is used}
 #'
 #' @examples
 #'
@@ -290,6 +300,14 @@ independence_weights <- function(A,
 #' 
 #' Huling, J. D., Greifer, N., & Chen, G. (2021). Independence weights for causal inference with continuous exposures. 
 #' arXiv preprint arXiv:2107.07086. \url{https://arxiv.org/abs/2107.07086}
+#' @return An object of class \code{"weighted_energy_terms"}.
+#' \item{D_w}{the value of the DCOW measure}
+#' \item{distcov_unweighted}{the unweighted distance covariance between treatment and covariates}
+#' \item{distcov_weighted}{the weighted distance covariance between treatment and covariates}
+#' \item{energy_A}{the (energy) distance between the treatment distribution and the weighted treatment distribution. Smaller values mean the marginal distribution of the treatment is preserved after weighting}
+#' \item{energy_x}{the (energy) distance between the covariate distribution and the weighted covariate distribution. Smaller values mean the marginal distribution of the covariates is preserved after weighting}
+#' \item{ess}{the expected sample size after weighting. Kish's approximation is used}
+#' 
 #' @examples 
 #' 
 #' simdat <- simulate_confounded_data(seed = 999, nobs = 100)

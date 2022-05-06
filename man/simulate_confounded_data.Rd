@@ -34,6 +34,11 @@ An list with elements:
 \item{data}{A simulated dataset with \code{nobs} rows }
 \item{true_adrf}{A function that inputs values of the treatment \code{A} and outputs the true ADRF, E(Y(A)), of the data-generating
 mechanism used to generate \code{data}. }
+
+A list with the following elements
+\item{data}{a \code{data.frame} with the response (\code{Y}), treatment (\code{A}), confounders (\code{Z1} to \code{Z5}), and true average dose response function \code{truth}}
+\item{true_adrf}{a function; true average dose response function}
+\item{original_covariates}{original, untransformed covariates in the simulation setup. Do not use, as it makes the simulation setup significantly easier.}
 }
 \description{
 Simulates confounded data with continuous treatment based on Vegetabile et al's simulation

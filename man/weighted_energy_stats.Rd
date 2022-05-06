@@ -27,6 +27,14 @@ is always equal to \code{D_unweighted}.}
 \item{energy_A}{The weighted energy distance between \code{A} and its weighted version}
 \item{energy_X}{The weighted energy distance between \code{X} and its weighted version}
 \item{ess}{The estimated effective sample size of the weights using Kish's effective sample size formula.}
+
+An object of class \code{"weighted_energy_terms"}.
+\item{D_w}{the value of the DCOW measure}
+\item{distcov_unweighted}{the unweighted distance covariance between treatment and covariates}
+\item{distcov_weighted}{the weighted distance covariance between treatment and covariates}
+\item{energy_A}{the (energy) distance between the treatment distribution and the weighted treatment distribution. Smaller values mean the marginal distribution of the treatment is preserved after weighting}
+\item{energy_x}{the (energy) distance between the covariate distribution and the weighted covariate distribution. Smaller values mean the marginal distribution of the covariates is preserved after weighting}
+\item{ess}{the expected sample size after weighting. Kish's approximation is used}
 }
 \description{
 Calculates weighted energy statistics used to quantify weighted dependence

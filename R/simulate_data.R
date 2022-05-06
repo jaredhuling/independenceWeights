@@ -22,6 +22,10 @@
 #' Nonparametric estimation of population average dose-response curves using entropy balancing weights for continuous exposures. 
 #' Health Services and Outcomes Research Methodology, 21(1), 69-110.
 #' @importFrom stats dist rbinom rchisq rnorm
+#' @return A list with the following elements
+#' \item{data}{a \code{data.frame} with the response (\code{Y}), treatment (\code{A}), confounders (\code{Z1} to \code{Z5}), and true average dose response function \code{truth}}
+#' \item{true_adrf}{a function; true average dose response function}
+#' \item{original_covariates}{original, untransformed covariates in the simulation setup. Do not use, as it makes the simulation setup significantly easier.}
 #'
 #' @examples
 #' 
