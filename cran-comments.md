@@ -2,6 +2,7 @@
 ## First CRAN submission for 'independenceWeights'
 
 * first submission
+* adds 'value' manual elements
 
 ## Test environments
 
