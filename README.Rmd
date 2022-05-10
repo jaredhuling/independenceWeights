@@ -15,17 +15,18 @@ knitr::opts_chunk$set(
 # independenceWeights
 
 <!-- badges: start -->
+[![version](http://www.r-pkg.org/badges/version/independenceWeights)](https://cran.r-project.org/package=independenceWeights)
 <!-- badges: end -->
 
 The `independenceWeights` package constructs weights designed to minimize the weighted statistical dependence between a continuous exposure variable and a vector of confounder variables and implements the methods of @huling2021independence for doing so. In estimating a causal dose-response function, confounding bias is a function of the dependence between confounders and the exposure/treatment, so weights that minimize the dependence aim to mitigate confounding bias directly.
 
 ## Installation
 
-<!-- You can install the released version of independenceWeights from [CRAN](https://CRAN.R-project.org) with: -->
+You can install the released version of independenceWeights from [CRAN](https://CRAN.R-project.org) with:
 
-<!-- ``` r -->
-<!-- install.packages("independenceWeights") -->
-<!-- ``` -->
+``` r
+install.packages("independenceWeights")
+```
 
 Install the development version from [GitHub](https://github.com/) with:
 

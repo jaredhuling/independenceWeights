@@ -2,6 +2,8 @@
 # independenceWeights
 
 <!-- badges: start -->
+
+[![version](http://www.r-pkg.org/badges/version/independenceWeights)](https://cran.r-project.org/package=independenceWeights)
 <!-- badges: end -->
 
 The `independenceWeights` package constructs weights designed to
@@ -15,10 +17,12 @@ mitigate confounding bias directly.
 
 ## Installation
 
-<!-- You can install the released version of independenceWeights from [CRAN](https://CRAN.R-project.org) with: -->
-<!-- ``` r -->
-<!-- install.packages("independenceWeights") -->
-<!-- ``` -->
+You can install the released version of independenceWeights from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("independenceWeights")
+```
 
 Install the development version from [GitHub](https://github.com/) with:
 
