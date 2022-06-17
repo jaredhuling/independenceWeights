@@ -82,6 +82,13 @@ simulate_confounded_data <- function(seed = 1,
   A <- rchisq(nobs, df = 3, ncp = muA)
   
   
+  true_density_A_X <- function(A, X)
+  {
+    muA_true <- 5 * abs(X[,1]) + 6 * abs(X[,2]) + 3 * abs(X[,5]) + abs(X[,4])
+    
+    dchisq(A, df = 3, ncp = muA_true)
+  }
+  
   if(A_effect)
   {
     Cnum <- ((MX1+3)^2+1) + 2*((MX2-25)^2+1)
@@ -113,7 +120,7 @@ simulate_confounded_data <- function(seed = 1,
   
   datx <- data.frame(X1 = X1, X2 = X2, X3 = X3, X4 = X4, X5 = X5)
   
-  list(data = datz, true_adrf = Afunc, original_covariates = datx)
+  list(data = datz, true_adrf = Afunc, original_covariates = datx, true_density_A_X = true_density_A_X)
 }
 
 
