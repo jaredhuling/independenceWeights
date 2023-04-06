@@ -9,7 +9,7 @@
 The `independenceWeights` package constructs weights designed to
 minimize the weighted statistical dependence between a continuous
 exposure variable and a vector of confounder variables and implements
-the methods of Huling, Greifer, and Chen (2021) for doing so. In
+the methods of Huling, Greifer, and Chen (2023) for doing so. In
 estimating a causal dose-response function, confounding bias is a
 function of the dependence between confounders and the
 exposure/treatment, so weights that minimize the dependence aim to
@@ -35,7 +35,7 @@ devtools::install_github("jaredhuling/independenceWeights")
 
 This is a basic example which shows how to estimate and utilize the
 distance covariance optimal weights (DCOWs) of Huling, Greifer, and Chen
-(2021):
+(2023):
 
 ``` r
 library(independenceWeights)
@@ -54,7 +54,7 @@ X <- as.matrix(simdat$data[c("Z1", "Z2", "Z3", "Z4", "Z5")]) ## confounders
 
 Now estimate weights to adjust for confounders using the distance
 covariance optimal weights (DCOWs), which aim to mitigate the dependence
-between *A* and *X*:
+between $A$ and $X$:
 
 ``` r
 dcows <- independence_weights(A, X)
@@ -192,7 +192,7 @@ trt_vec <- seq(min(simdat$data$A), 50, length.out=500)
 ## estimate ADRF
 adrf_hat <- weighted_kernel_est(A, y, dcows$weights, trt_vec)$est
 
-## estimate naively without weights
+## estimate naively without weights 
 adrf_hat_unwtd <- weighted_kernel_est(A, y, rep(1, length(y)), trt_vec)$est
 
 ylims <- c(-4.75, 4.75)
@@ -217,9 +217,10 @@ legend("bottomleft", c("True ADRF", "Unweighted Est.", "DCOW-weighted Est."),
 
 <div id="ref-huling2021independence" class="csl-entry">
 
-Huling, Jared D, Noah Greifer, and Guanhua Chen. 2021. “Independence
-Weights for Causal Inference with Continuous Exposures.” *arXiv Preprint
-arXiv:2107.07086*. <https://arxiv.org/abs/2107.07086>.
+Huling, Jared D, Noah Greifer, and Guanhua Chen. 2023. “Independence
+Weights for Causal Inference with Continuous Treatments.” *Journal of
+the American Statistical Association, to Appear*.
+<https://arxiv.org/abs/2107.07086>.
 
 </div>
 

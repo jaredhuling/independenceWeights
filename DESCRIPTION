@@ -10,7 +10,7 @@ Authors@R:
       person("Noah", "Greifer", role=c("aut"), 
              email = "noah.greifer@gmail.com",
 	           comment = c(ORCID = "0000-0003-3067-7154")))
-Description: Estimates weights to make a continuous-valued exposure statistically independent of a vector of pre-treatment covariates using the method proposed in Huling, Greifer, and Chen (2021) <arxiv:2107.07086>. 
+Description: Estimates weights to make a continuous-valued exposure statistically independent of a vector of pre-treatment covariates using the method proposed in Huling, Greifer, and Chen (2021) <arXiv:2107.07086>. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
